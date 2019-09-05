@@ -40,6 +40,7 @@ followersArray.forEach(item => {
   axios.get(`https://api.github.com/users/${item}`)
   .then(function (response) {
     console.log(response);
+    cards.appendChild(gitCards(response.data));
 })
 .catch(function (error){
   console.log(error);
@@ -78,9 +79,10 @@ function gitCards(gitData) {
   const location = document.createElement('p');
   const profile = document.createElement('p');
   const link = document.createElement('a');
-  const Followers = document.createElement('p');
+  const followers = document.createElement('p');
   const following = document.createElement('p');
   const bio = document.createElement('p');
+
 
 
   card.classList.add('card');
@@ -92,22 +94,44 @@ function gitCards(gitData) {
   name.textContent = gitData.name;
   userName.textContent = gitData.login;
   location.textContent = gitData.location;
+  profile.textContent = `profile: `
   link.textContent = gitData['html_url'];
   link.href = gitData['html_url'];
+  followers.textContent = `Followers: ${gitData.followers}`;
+  following.textContent = `Following: ${gitData.following}`;
+  bio.textContent = `Bio: ${gitData.bio}`
+  
+
+// <div class="card">
+//   <img src={image url of user} />
+//   <div class="card-info">
+//     <h3 class="name">{users name}</h3>
+//     <p class="username">{users user name}</p>
+//     <p>Location: {users location}</p>
+//     <p>Profile:  
+//       <a href={address to users github page}>{address to users github page}</a>
+//     </p>
+//     <p>Followers: {users followers count}</p>
+//     <p>Following: {users following count}</p>
+//     <p>Bio: {users bio}</p>
+//   </div>
+// </div>
+
 
 
   card.appendChild(imgSrc);
+  cardInfo.appendChild(name);
+  cardInfo.appendChild(userName);
+  cardInfo.appendChild(location);
+  profile.appendChild(link);
+  cardInfo.appendChild(profile);
+  
+  cardInfo.appendChild(followers);
+  cardInfo.appendChild(following);
+  cardInfo.appendChild(bio);
   card.appendChild(cardInfo);
-  card.appendChild(name);
-  card.appendChild(username);
-  card.appendChild(location);
-  card.appendChild(profile);
-  card.appendChild(link);
-  card.appendChild(followers);
-  card.appendChild(following);
-  card.appendChild(bio);
 
-  cards.appendChild(card);
+  return card;
 
 
 };
